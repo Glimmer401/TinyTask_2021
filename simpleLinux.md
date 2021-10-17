@@ -1,3 +1,5 @@
+![bannner](https://gitee.com/xiafengL/photo/raw/master//bannner.png)
+
 > 完成招新题目的时候，很多题目并没有强制要求使用 linux 。但是在后续学习中，linux 几乎是必不可少的环境，由于不是所有小伙伴都做了后端关于 linux 的题目，所以这里复刻了一个版本给大家练练手。
 
 # 任务要求
@@ -79,4 +81,3 @@
         - 试着进行一些操作，当访问机器 80 端口的时候，可以直接访问到 `NextCloud` 页面
             - *你可以直接改 `Docker` 容器的端口映射，但是也可以试试把 `Nginx` 结合进来*
             
-
