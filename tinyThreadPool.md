@@ -88,3 +88,79 @@ int main() {
     return 0;
 }
 ```
+Java中关于线程池的实现可以参照ThreadPoolExecutor，这边准备了某个爪哇弱鸡写的模板（相比源码简化了挺多东西），如果觉得太烂也可以不参考自己直接造一个玩，如果对Java并发感兴趣的群友可以入手一本《Java并发的艺术》（作者是一位阿里员工），感觉讲的挺好的。
+```java
+public class MyThreadPoolExcutor{
+    //简单来说这个是一个记录线程池状态的整型值，高三位表示线程池状态，低二十九位表示线程池目前容量
+    private AtomicInteger ctl=new AtomicInteger(ctlOf(RUNNING,0));
+    private static final int COUNT_BITS = Integer.SIZE-3;
+    private static final int CAPACITY = (1<<COUNT_BITS)-1;
+
+    private static final int RUNNING = -1<<COUNT_BITS;
+    private static final int SHUTDOWN = 0<<COUNT_BITS;
+
+    private static int runStateOf(int c){
+        return c & ~CAPACITY;
+    }
+
+    private static int workerCountOf(int c){
+        return c & CAPACITY;
+    }
+
+    private static int ctlOf(int wc,int rs){
+        return wc | rs;
+    }
+
+    private static boolean isRunning(int c){
+        return c < SHUTDOWN;
+    }
+
+    private boolean compareAndSetIncrementWorkerSize(int c){
+        return ctl.compareAndSet(c,c+1);
+    }
+
+    private boolean compareAndSetDecrementWorkerSize(int c){
+        return ctl.compareAndSet(c,c-1);
+    }
+
+    
+    private volatile int maxPoolSize;
+
+    private ReentrantLock mainLock;
+
+    private HashSet<Worker> workers = new HashSet();
+
+    private BlockingQueue<Runnable> workerQueue;
+
+    private ThreadFactory threadFactory;
+
+    private final class Worker implements Runnable{
+
+        Runnable firstTask;
+
+        Thread thread;
+
+        public Worker(Runnable firstTask){
+            this.firstTask = firstTask;
+            this.thread = threadFactory.newThread(this);
+        }
+
+        @Override
+        public void run() {
+            runWorker(this);
+        }
+    }
+  
+    public MyThreadPoolExcutor(int maxPoolSize, ReentrantLock mainLock, HashSet<Worker> workers, BlockingQueue<Runnable> workerQueue, ThreadFactory threadFactory){
+        //TODO: your code here
+    }
+
+    public void execute(Runnable command){
+        //TODO: your code here
+    }
+
+    final void runWorker(Worker w){
+        //TODO: your code here
+    }
+}
+```
